@@ -6,7 +6,7 @@
 TARGET=/mnt
 
 einfo() {
-    printf '\n\033[1;7;36m> %s <\033[0m\n' "$@" >&2     # bold reversed cyan
+    printf '\n\033[1;7;36m> %s <\033[0m\n' "$@" >&2 # bold reversed cyan
 }
 
 einfo "Installing up cloud-init bootstrap components..."
@@ -23,26 +23,29 @@ fi
 
 # configure the image for a particular cloud datasource
 case "$CLOUD" in
-    aws)
-        DATASOURCE="Ec2"
-        ;;
-    nocloud)
-        DATASOURCE="NoCloud"
-        ;;
-    azure)
-        DATASOURCE="Azure"
-        ;;
-    gcp)
-        DATASOURCE="GCE"
-        ;;
-    oci)
-        DATASOURCE="Oracle"
-        ;;
-    *)
-        echo "Unsupported Cloud '$CLOUD'" >&2
-        exit 1
-        ;;
+aws)
+    DATASOURCE="Ec2"
+    ;;
+nocloud)
+    DATASOURCE="NoCloud"
+    ;;
+azure)
+    DATASOURCE="Azure"
+    ;;
+gcp)
+    DATASOURCE="GCE"
+    ;;
+oci)
+    DATASOURCE="Oracle"
+    ;;
+scaleway)
+    DATASOURCE="Scaleway"
+    ;;
+*)
+    echo "Unsupported Cloud '$CLOUD'" >&2
+    exit 1
+    ;;
 esac
 
 printf '\n\n# Cloud-Init will use default configuration for this DataSource\n'
-printf 'datasource_list: ["%s"]\n' "$DATASOURCE" >> "$TARGET"/etc/cloud/cloud.cfg
+printf 'datasource_list: ["%s"]\n' "$DATASOURCE" >>"$TARGET"/etc/cloud/cloud.cfg
